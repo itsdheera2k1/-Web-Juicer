@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Juicer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- macOS-style title bar -->
+        <div class="title-bar">
+            <div class="traffic-lights">
+                <div class="traffic-light red"></div>
+                <div class="traffic-light yellow"></div>
+                <div class="traffic-light green"></div>
+            </div>
+            <div class="title">Web Juicer</div>
+        </div>
+
+        <!-- Navigation tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="sqli">SQLi</button>
+            <button class="nav-tab" data-tab="xss">XSS</button>
+            <button class="nav-tab" data-tab="encoding">Encoding</button>
+            <button class="nav-tab" data-tab="tools">Tools</button>
+        </div>
+
+        <!-- Main content area -->
+        <div class="main-content">
+            <!-- SQLi Tab -->
+            <div class="tab-content active" id="sqli-tab">
+                <div class="payload-section">
+                    <label>SQL Injection Payloads:</label>
+                    <select id="sqli-payloads">
+                        <option value="">Select a payload...</option>
+                        <option value="' OR '1'='1">Classic OR</option>
+                        <option value="' UNION SELECT NULL,username,password FROM users--">Union Select</option>
+                        <option value="'; DROP TABLE users--">Drop Table</option>
+                        <option value="' OR 1=1--">OR 1=1</option>
+                        <option value="' UNION SELECT 1,database(),3--">Database Name</option>
+                        <option value="' UNION SELECT 1,table_name,3 FROM information_schema.tables--">Table Names</option>
+                    </select>
+                    <button id="insert-sqli">Insert</button>
+                </div>
+            </div>
+
+            <!-- XSS Tab -->
+            <div class="tab-content" id="xss-tab">
+                <div class="payload-section">
+                    <label>XSS Vectors:</label>
+                    <select id="xss-payloads">
+                        <option value="">Select a payload...</option>
+                        <option value="<script>alert('XSS')</script>">Basic Alert</option>
+                        <option value="<img src=x onerror=alert('XSS')">Image OnError</option>
+                        <option value="javascript:alert('XSS')">JavaScript URI</option>
+                        <option value="'><script>alert('XSS')</script>">Attribute Injection</option>
+                        <option value="<svg onload=alert('XSS')">SVG Injection</option>
+                    </select>
+                    <button id="insert-xss">Insert</button>
+                </div>
+            </div>
+
+            <!-- Encoding Tab -->
+            <div class="tab-content" id="encoding-tab">
+                <div class="encoding-section">
+                    <div class="encoding-buttons">
+                        <button id="url-encode">URL Encode</button>
+                        <button id="url-decode">URL Decode</button>
+                        <button id="base64-encode">Base64 Encode</button>
+                        <button id="base64-decode">Base64 Decode</button>
+                        <button id="md5-hash">MD5 Hash</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Tab -->
+            <div class="tab-content" id="tools-tab">
+                <div class="tools-section">
+                    <div class="custom-headers">
+                        <label>Custom Headers:</label>
+                        <div class="header-input">
+                            <input type="text" id="user-agent" placeholder="User-Agent">
+                            <input type="text" id="referer" placeholder="Referer">
+                        </div>
+                        <button id="apply-headers">Apply Headers</button>
+                    </div>
+                    <div class="request-method">
+                        <label>Request Method:</label>
+                        <div class="method-toggle">
+                            <input type="radio" id="get-method" name="method" value="GET" checked>
+                            <label for="get-method">GET</label>
+                            <input type="radio" id="post-method" name="method" value="POST">
+                            <label for="post-method">POST</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- URL/Payload input area -->
+        <div class="input-section">
+            <textarea id="url-input" placeholder="Enter URL or payload here..."></textarea>
+            <div class="action-buttons">
+                <button id="load-url">Load URL</button>
+                <button id="execute">Execute</button>
+                <button id="clear">Clear</button>
+            </div>
+        </div>
+
+        <!-- Status bar -->
+        <div class="status-bar">
+            <div class="status-info">
+                <span id="status-text">Ready</span>
+            </div>
+            <div class="score-info">
+                <span id="request-count">Requests: 0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>
